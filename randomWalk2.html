@@ -1,0 +1,109 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 500px;
+            height: 500px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "grey", "id": "par_21", "label": "par_21", "shape": "dot", "title": "par_21", "value": 8}, {"color": "Black", "id": "social media", "label": "social media", "shape": "dot", "title": "social media", "value": 23}, {"color": "Red", "id": "DCCC", "label": "DCCC", "shape": "dot", "title": "DCCC", "value": 14}, {"color": "grey", "id": "par_69", "label": "par_69", "shape": "dot", "title": "par_69", "value": 9}, {"color": "grey", "id": "par_104", "label": "par_104", "shape": "dot", "title": "par_104", "value": 5}, {"color": "grey", "id": "par_105", "label": "par_105", "shape": "dot", "title": "par_105", "value": 9}, {"color": "Red", "id": "Guccifer", "label": "Guccifer", "shape": "dot", "title": "Guccifer", "value": 4}]);
+        edges = new vis.DataSet([{"from": "par_21", "to": "social media", "value": 2}, {"from": "par_21", "to": "DCCC", "value": 1}, {"from": "social media", "to": "par_69", "value": 4}, {"from": "DCCC", "to": "par_104", "value": 2}, {"from": "DCCC", "to": "par_105", "value": 2}, {"from": "Guccifer", "to": "par_104", "value": 2}, {"from": "Guccifer", "to": "par_105", "value": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        // default to using dot shape for nodes
+        options.nodes = {
+            shape: "dot"
+        }
+        
+
+        network = new vis.Network(container, data, options);
+
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
