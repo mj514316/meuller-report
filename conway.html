@@ -1,0 +1,109 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 500px;
+            height: 500px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "Red", "id": "54 Ivan Nechepurenko", "label": "54 Ivan Nechepurenko", "shape": "dot", "title": "54 Ivan Nechepurenko", "value": 1}, {"color": "grey", "id": "par_453", "label": "par_453", "shape": "dot", "title": "par_453", "value": 20}, {"color": "Red", "id": "53 Louis Nelson", "label": "53 Louis Nelson", "shape": "dot", "title": "53 Louis Nelson", "value": 1}, {"color": "Blue", "id": "Seychelles", "label": "Seychelles", "shape": "dot", "title": "Seychelles", "value": 11}, {"color": "grey", "id": "par_318", "label": "par_318", "shape": "dot", "title": "par_318", "value": 10}, {"color": "Red", "id": "Kushner", "label": "Kushner", "shape": "dot", "title": "Kushner", "value": 48}, {"color": "Black", "id": "hacking", "label": "hacking", "shape": "dot", "title": "hacking", "value": 23}, {"color": "Red", "id": "Hicks", "label": "Hicks", "shape": "dot", "title": "Hicks", "value": 38}, {"color": "Red", "id": "Bannon", "label": "Bannon", "shape": "dot", "title": "Bannon", "value": 36}, {"color": "Blue", "id": "Kasbo", "label": "Kasbo", "shape": "dot", "title": "Kasbo", "value": 2}, {"color": "Red", "id": "Steve Mnuchin", "label": "Steve Mnuchin", "shape": "dot", "title": "Steve Mnuchin", "value": 1}, {"color": "Red", "id": "Sergey Ryabkov", "label": "Sergey Ryabkov", "shape": "dot", "title": "Sergey Ryabkov", "value": 1}, {"color": "Blue", "id": "Russia", "label": "Russia", "shape": "dot", "title": "Russia", "value": 280}, {"color": "Red", "id": "Donald Trump\u0027s", "label": "Donald Trump\u0027s", "shape": "dot", "title": "Donald Trump\u0027s", "value": 5}, {"color": "Red", "id": "Trump", "label": "Trump", "shape": "dot", "title": "Trump", "value": 131}, {"color": "Blue", "id": "China", "label": "China", "shape": "dot", "title": "China", "value": 4}, {"color": "Red", "id": "Jim Heintz", "label": "Jim Heintz", "shape": "dot", "title": "Jim Heintz", "value": 1}, {"color": "Red", "id": "Matthew Lee", "label": "Matthew Lee", "shape": "dot", "title": "Matthew Lee", "value": 1}, {"color": "Blue", "id": "Ryabkov", "label": "Ryabkov", "shape": "dot", "title": "Ryabkov", "value": 1}, {"color": "Red", "id": "Ivan Nechepurenko", "label": "Ivan Nechepurenko", "shape": "dot", "title": "Ivan Nechepurenko", "value": 1}, {"color": "Red", "id": "56 Jim Heintz", "label": "56 Jim Heintz", "shape": "dot", "title": "56 Jim Heintz", "value": 1}, {"color": "Red", "id": "Kellyanne Conway", "label": "Kellyanne Conway", "shape": "dot", "title": "Kellyanne Conway", "value": 2}, {"color": "Red", "id": "Stephen Miller", "label": "Stephen Miller", "shape": "dot", "title": "Stephen Miller", "value": 9}, {"color": "Red", "id": "Jason Miller", "label": "Jason Miller", "shape": "dot", "title": "Jason Miller", "value": 1}, {"color": "Red", "id": "57 Damien Gayle", "label": "57 Damien Gayle", "shape": "dot", "title": "57 Damien Gayle", "value": 1}, {"color": "Red", "id": "Dmitriev", "label": "Dmitriev", "shape": "dot", "title": "Dmitriev", "value": 20}, {"color": "Red", "id": "Donald", "label": "Donald", "shape": "dot", "title": "Donald", "value": 7}, {"color": "Red", "id": "Nader", "label": "Nader", "shape": "dot", "title": "Nader", "value": 20}, {"color": "Red", "id": "Prince", "label": "Prince", "shape": "dot", "title": "Prince", "value": 9}, {"color": "Red", "id": "Wilbur Ross", "label": "Wilbur Ross", "shape": "dot", "title": "Wilbur Ross", "value": 1}]);
+        edges = new vis.DataSet([{"from": "54 Ivan Nechepurenko", "to": "par_453", "value": 1}, {"from": "53 Louis Nelson", "to": "par_453", "value": 1}, {"from": "Seychelles", "to": "par_318", "value": 3}, {"from": "Kushner", "to": "par_453", "value": 1}, {"from": "hacking", "to": "par_453", "value": 1}, {"from": "Hicks", "to": "par_453", "value": 4}, {"from": "Bannon", "to": "par_318", "value": 1}, {"from": "Bannon", "to": "par_453", "value": 1}, {"from": "Kasbo", "to": "par_318", "value": 1}, {"from": "Steve Mnuchin", "to": "par_318", "value": 1}, {"from": "Sergey Ryabkov", "to": "par_453", "value": 1}, {"from": "par_453", "to": "Russia", "value": 5}, {"from": "par_453", "to": "Donald Trump\u0027s", "value": 1}, {"from": "par_453", "to": "Trump", "value": 1}, {"from": "par_453", "to": "China", "value": 1}, {"from": "par_453", "to": "Jim Heintz", "value": 1}, {"from": "par_453", "to": "Matthew Lee", "value": 2}, {"from": "par_453", "to": "Ryabkov", "value": 1}, {"from": "par_453", "to": "Ivan Nechepurenko", "value": 1}, {"from": "par_453", "to": "56 Jim Heintz", "value": 1}, {"from": "par_453", "to": "Kellyanne Conway", "value": 1}, {"from": "par_453", "to": "Stephen Miller", "value": 1}, {"from": "par_453", "to": "Jason Miller", "value": 1}, {"from": "par_453", "to": "57 Damien Gayle", "value": 1}, {"from": "par_318", "to": "Dmitriev", "value": 13}, {"from": "par_318", "to": "Donald", "value": 1}, {"from": "par_318", "to": "Nader", "value": 14}, {"from": "par_318", "to": "Prince", "value": 1}, {"from": "par_318", "to": "Kellyanne Conway", "value": 1}, {"from": "par_318", "to": "Wilbur Ross", "value": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        // default to using dot shape for nodes
+        options.nodes = {
+            shape: "dot"
+        }
+        
+
+        network = new vis.Network(container, data, options);
+
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

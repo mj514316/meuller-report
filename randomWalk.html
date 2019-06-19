@@ -9,8 +9,8 @@
 <style type="text/css">
 
         #mynetwork {
-            width: 500px;
-            height: 500px;
+            width: 450px;
+            height: 450px;
             background-color: #ffffff;
             border: 1px solid lightgray;
             position: relative;
@@ -47,8 +47,8 @@
         
 
         // parsing and collecting nodes and edges from the python
-        nodes = new vis.DataSet([{"color": "grey", "id": "par_662", "label": "par_662", "shape": "dot", "title": "par_662", "value": 3}, {"color": "Red", "id": "Mueller", "label": "Mueller", "shape": "dot", "title": "Mueller", "value": 21}, {"color": "Red", "id": "McGahn", "label": "McGahn", "shape": "dot", "title": "McGahn", "value": 82}, {"color": "grey", "id": "par_605", "label": "par_605", "shape": "dot", "title": "par_605", "value": 4}, {"color": "grey", "id": "par_533", "label": "par_533", "shape": "dot", "title": "par_533", "value": 7}, {"color": "Red", "id": "Trump", "label": "Trump", "shape": "dot", "title": "Trump", "value": 128}, {"color": "grey", "id": "par_472", "label": "par_472", "shape": "dot", "title": "par_472", "value": 6}, {"color": "Red", "id": "Logan", "label": "Logan", "shape": "dot", "title": "Logan", "value": 2}, {"color": "Red", "id": "Ruddy", "label": "Ruddy", "shape": "dot", "title": "Ruddy", "value": 2}, {"color": "grey", "id": "par_488", "label": "par_488", "shape": "dot", "title": "par_488", "value": 14}, {"color": "grey", "id": "par_549", "label": "par_549", "shape": "dot", "title": "par_549", "value": 4}]);
-        edges = new vis.DataSet([{"from": "par_662", "to": "Mueller", "value": 1}, {"from": "par_662", "to": "McGahn", "value": 3}, {"from": "Mueller", "to": "par_605", "value": 1}, {"from": "par_533", "to": "Trump", "value": 1}, {"from": "par_533", "to": "McGahn", "value": 1}, {"from": "par_472", "to": "Logan", "value": 1}, {"from": "par_472", "to": "Trump", "value": 1}, {"from": "Ruddy", "to": "par_605", "value": 1}, {"from": "McGahn", "to": "par_488", "value": 1}, {"from": "McGahn", "to": "par_549", "value": 1}, {"from": "McGahn", "to": "par_605", "value": 1}, {"from": "Logan", "to": "par_488", "value": 1}]);
+        nodes = new vis.DataSet([{"color": "Blue", "id": "Washington", "label": "Washington", "shape": "dot", "title": "Washington", "value": 17}, {"color": "grey", "id": "par_213", "label": "par_213", "shape": "dot", "title": "par_213", "value": 12}, {"color": "grey", "id": "par_689", "label": "par_689", "shape": "dot", "title": "par_689", "value": 19}, {"color": "Red", "id": "Papadopoulos", "label": "Papadopoulos", "shape": "dot", "title": "Papadopoulos", "value": 36}, {"color": "grey", "id": "par_25", "label": "par_25", "shape": "dot", "title": "par_25", "value": 4}, {"color": "grey", "id": "par_194", "label": "par_194", "shape": "dot", "title": "par_194", "value": 12}, {"color": "Red", "id": "Jeff", "label": "Jeff", "shape": "dot", "title": "Jeff", "value": 20}, {"color": "Red", "id": "Laura DeMarco", "label": "Laura DeMarco", "shape": "dot", "title": "Laura DeMarco", "value": 1}, {"color": "grey", "id": "par_264", "label": "par_264", "shape": "dot", "title": "par_264", "value": 15}]);
+        edges = new vis.DataSet([{"from": "Washington", "to": "par_213", "value": 1}, {"from": "Washington", "to": "par_689", "value": 1}, {"from": "par_213", "to": "Papadopoulos", "value": 12}, {"from": "par_25", "to": "Papadopoulos", "value": 1}, {"from": "par_194", "to": "Papadopoulos", "value": 7}, {"from": "par_194", "to": "Jeff", "value": 1}, {"from": "Laura DeMarco", "to": "par_264", "value": 1}, {"from": "par_264", "to": "Jeff", "value": 1}]);
 
         // adding nodes and edges to the graph
         data = {nodes: nodes, edges: edges};
