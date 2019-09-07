@@ -1,0 +1,109 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 450px;
+            height: 450px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "Blue", "id": "Washington", "label": "Washington", "shape": "dot", "title": "Washington", "value": 17}, {"color": "grey", "id": "par_213", "label": "par_213", "shape": "dot", "title": "par_213", "value": 12}, {"color": "grey", "id": "par_689", "label": "par_689", "shape": "dot", "title": "par_689", "value": 19}, {"color": "Red", "id": "Papadopoulos", "label": "Papadopoulos", "shape": "dot", "title": "Papadopoulos", "value": 36}, {"color": "grey", "id": "par_25", "label": "par_25", "shape": "dot", "title": "par_25", "value": 4}, {"color": "grey", "id": "par_194", "label": "par_194", "shape": "dot", "title": "par_194", "value": 12}, {"color": "Red", "id": "Jeff", "label": "Jeff", "shape": "dot", "title": "Jeff", "value": 20}, {"color": "Red", "id": "Laura DeMarco", "label": "Laura DeMarco", "shape": "dot", "title": "Laura DeMarco", "value": 1}, {"color": "grey", "id": "par_264", "label": "par_264", "shape": "dot", "title": "par_264", "value": 15}]);
+        edges = new vis.DataSet([{"from": "Washington", "to": "par_213", "value": 1}, {"from": "Washington", "to": "par_689", "value": 1}, {"from": "par_213", "to": "Papadopoulos", "value": 12}, {"from": "par_25", "to": "Papadopoulos", "value": 1}, {"from": "par_194", "to": "Papadopoulos", "value": 7}, {"from": "par_194", "to": "Jeff", "value": 1}, {"from": "Laura DeMarco", "to": "par_264", "value": 1}, {"from": "par_264", "to": "Jeff", "value": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        // default to using dot shape for nodes
+        options.nodes = {
+            shape: "dot"
+        }
+        
+
+        network = new vis.Network(container, data, options);
+
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
