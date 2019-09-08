@@ -1,5 +1,4 @@
-msg = "hello world"
-print(msg)
-
-print(msg.capitalize())
-
+import pandas as pd 
+myDF = pd.read_csv('https://raw.githubusercontent.com/plotly/'
+    'datasets/master/gapminderDataFiveYear.csv')
+myDF.head()
