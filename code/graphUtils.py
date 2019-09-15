@@ -3,7 +3,9 @@ from spacy.matcher import PhraseMatcher
 from spacy.matcher import PhraseMatcher
 from spacy.tokens import Span
 import networkx as nx
+import pandas as pd
 from collections import Counter
+from pyvis.network import Network
 import re
 
 class EntityMatcher(object):
@@ -70,7 +72,7 @@ def from_nx(graphVizNet, nx_graph):
     nodes = nx_graph.nodes()
     if len(edges) > 0:
         for e in edges:
-            print('text' in nx_graph.node[e[0]] )
+            #print('text' in nx_graph.node[e[0]] )
             graphVizNet.add_node(e[0], 
                 label = str(e[0]), 
                 title = multi_line_toolip(nx_graph.node[e[0]]['text']) if 'text' in nx_graph.node[e[0]] else e[0], 
@@ -103,6 +105,7 @@ def getFirstOrderGraph(graph, node):
     return subG
 
 def getSecondOrderSubgraph(graph, node):
+
     nodes = []
     for neighbor_list in [graph.neighbors(n) for n in graph.neighbors(node)]:
         for n in neighbor_list:
@@ -113,3 +116,31 @@ def getSecondOrderSubgraph(graph, node):
     print(f"Edges: {subG.number_of_edges()}")
     print(f"Self Loops: {subG.number_of_selfloops()}")
     return subG
+
+def visualizeGraph(nxGraph, save = False, size = ['500px','500px']):
+    """ Converts from networkx to a pyvis Network. 
+    """
+    subGViz = Network(size[0], size[1])
+    from_nx(subGViz,nxGraph)
+    
+    if save:
+        subGViz.save_graph(save)
+    else:
+        subGViz.write_html('graph.html')
+        #subGViz.show('subGViz.html')
+    return subGViz
+
+def build_trimmed_subgraph(fullGraph, entity, n = 100000):
+    """ 
+    Takes an nx graph and a node name
+    gets second order subgraph 
+    and trims based on pagerank. 
+    """
+    subG = getSecondOrderSubgraph(fullGraph,entity)
+    
+    closeness = nx.algorithms.pagerank(subG)
+    top_n_closeness = pd.DataFrame([closeness]).T.sort_values(0, ascending=False).head(n).reset_index()
+    
+    limited_sub_g = subG.subgraph(list(top_n_closeness['index']) + [entity])
+    
+    return limited_sub_g

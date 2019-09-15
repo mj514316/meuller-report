@@ -1,13 +1,16 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_table
+import dash_dangerously_set_inner_html
+import sys
+sys.path.append("../code/")
+import networkx as nx
 import pandas as pd
+from graphUtils import from_nx, getFirstOrderGraph, getSecondOrderSubgraph, visualizeGraph, build_trimmed_subgraph
+from pyvis.network import Network
 from dash.dependencies import Input, Output
 
-df = pd.read_csv(
-    'https://raw.githubusercontent.com/plotly/'
-    'datasets/master/gapminderDataFiveYear.csv')
+fullMeuller = nx.read_gpickle("../data/fullMeullerGraph.gpickle")
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -15,43 +18,26 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.layout = html.Div(children=[
-    html.H1(children='Test App W/Filtering'),
-	dcc.Input(id = 'search', value = 'enter search here', type = 
-'text'),
-	dcc.Checklist(id = 'checkList',
-		options = [
-			{'label': 'People', 'value' : 'People'},
-			{'label': 'Locations', 'value' : 'Locations'},
-			{'label': 'Concepts', 'value' : 'Concepts'}
-		],
-		value = ['People','Locations']),
+    html.H1(children='Mueller Report'),	
 	dcc.Dropdown(
-        id='my-dropdown',
-        options=[{'label':thing, 'value':thing} for thing in list(df.country.unique())],
-        value='Albania'
-    )
-	, dash_table.DataTable(
-		id='my-table',
-		columns=[
-			{"name": i, "id": i} for i in sorted(df.columns)
-		],
-		page_current=0,
-		page_size=2,
-		page_action='custom'
-	),
-	html.Div(id = 'out')
+        id='ent-dropdown',
+		#options = [{'label':'Trump','value':'Trump'}],
+        options=[{'label':n, 'value':n} for n in fullMeuller.nodes if not n.startswith('par')],
+        value='Trump'
+    ),
+	html.Div(id = 'out'),
+	html.Iframe(id = 'graphOut', height = '600px', width = '600px'	)
 
 ])
 
 @app.callback(
-	Output('my-table', 'data'),
-	[Input(component_id = 'checkList', component_property = 'value'),
-	Input(component_id  = 'my-dropdown', component_property = 'value')]
+	Output('graphOut', 'srcDoc'),
+	[Input(component_id  = 'ent-dropdown', component_property = 'value')]
 )
-def table_update(checkList, searchTerm):
-	df1 = df[df['country'] == searchTerm].to_dict('records')
-	print(searchTerm)
-	return df1
+def table_update(searchTerm):
+	sub_g = build_trimmed_subgraph(fullMeuller,searchTerm, n = 50)
+	sub_viz = visualizeGraph(sub_g)
+	return sub_viz.html
 # def print_input(theList, searchTerm):
 # 	return f"Check Out This List: {theList}, and this search: {searchTerm}"
 
