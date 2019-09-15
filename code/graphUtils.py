@@ -2,7 +2,7 @@
 from spacy.matcher import PhraseMatcher
 from spacy.matcher import PhraseMatcher
 from spacy.tokens import Span
-import networkx
+import networkx as nx
 from collections import Counter
 import re
 
@@ -28,11 +28,11 @@ def makeGraphFromSpacy(nlpList, minConnections = 1):
         the spacy entities to construct the graph. Edges of the graph
         represent how often it occured, size of each node is fixed to degree
     """
-    G = networkx.Graph()
+    G = nx.Graph()
     colorMap = {'GPE':'Blue','PERSON':'Red','ORG':'Green','THEME':'Black'}
 
     for parNum, doc in enumerate(nlpList[0:len(nlpList)]):
-        G.add_node(f"par_{parNum}", t = 'Paragraph', color = 'grey') # Add a node for each paragraph
+        G.add_node(f"par_{parNum}", t = 'Paragraph', color = 'grey', text = doc.text) # Add a node for each paragraph
         #Get a count of all of the distinct occurences of an entity
         entCountDict = Counter([(ent.string.strip(),ent.label_) 
                                 for ent in doc.ents 
@@ -49,7 +49,7 @@ def makeGraphFromSpacy(nlpList, minConnections = 1):
     nodesToRemove = []
     for node in G.nodes():
         nodeDegree = G.degree(node)
-        if nodeDegree >= 0:
+        if nodeDegree >= 1:
             G.node[node]['value'] = nodeDegree
         else:
             nodesToRemove.append(node)
@@ -60,17 +60,37 @@ def makeGraphFromSpacy(nlpList, minConnections = 1):
     return G
 
 def from_nx(graphVizNet, nx_graph):
-    assert(isinstance(nx_graph, networkx.Graph))
+    """
+    Custom from_nx function which captures colorls and titles. 
+    This method is a bit fragile and highly dependant on the structure of the graph.
+    I need to work to generalize
+    """
+    assert(isinstance(nx_graph, nx.Graph))
     edges = nx_graph.edges(data=True)
     nodes = nx_graph.nodes()
     if len(edges) > 0:
         for e in edges:
-            graphVizNet.add_node(e[0], e[0], title=str(e[0]), color = nx_graph.node[e[0]]['color'], value = nx_graph.node[e[0]]['value'])
-            graphVizNet.add_node(e[1], e[1], title=str(e[1]), color = nx_graph.node[e[1]]['color'], value = nx_graph.node[e[1]]['value'])
+            print('text' in nx_graph.node[e[0]] )
+            graphVizNet.add_node(e[0], 
+                label = str(e[0]), 
+                title = multi_line_toolip(nx_graph.node[e[0]]['text']) if 'text' in nx_graph.node[e[0]] else e[0], 
+                color = nx_graph.node[e[0]]['color'], 
+                value = nx_graph.node[e[0]]['value']
+            )
+
+            graphVizNet.add_node(e[1], 
+                label = e[1], 
+                title = multi_line_toolip(nx_graph.node[e[1]]['text']) if 'text' in nx_graph.node[e[1]] else e[1],
+                color = nx_graph.node[e[1]]['color'], 
+                value = nx_graph.node[e[1]]['value']
+            )
+
             graphVizNet.add_edge(e[0], e[1], value = nx_graph.edges[e[0],e[1]]['weight'])
     else:
         graphVizNet.add_nodes(nodes)
     return graphVizNet
+def multi_line_toolip(aString: str):
+    return(f'<a href="#" title="Line 1&#5;Line 2&#5;Line 3"> {aString}</a>')
 
 def getFirstOrderGraph(graph, node):
     nodes = []
