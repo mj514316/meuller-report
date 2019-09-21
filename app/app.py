@@ -1,7 +1,6 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_dangerously_set_inner_html
 import sys
 sys.path.append("../code/")
 import networkx as nx
@@ -16,7 +15,7 @@ fullMeuller = nx.read_gpickle("../data/fullMeullerGraph.gpickle")
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
+server = app.server
 app.layout = html.Div(children=[
     html.H1(children='Mueller Report'),	
 	dcc.Dropdown(
