@@ -24,6 +24,17 @@ app.layout = html.Div(children=[
         options=[{'label':n, 'value':n} for n in fullMeuller.nodes if not n.startswith('par')],
         value='Trump'
     ),
+	html.Div("Select Number of Nodes to display:"),
+
+	dcc.Slider(
+		id = 'node-count',
+		marks={i: '{}'.format(i) for i in range(5,100,5)},
+		min=5,
+		max=100,
+		step=5,
+		value=40
+	),
+	html.H3("Relationship Graph"),
 	html.Div(id = 'out'),
 	html.Iframe(id = 'graphOut', height = '600px', width = '600px'	)
 
@@ -31,10 +42,10 @@ app.layout = html.Div(children=[
 
 @app.callback(
 	Output('graphOut', 'srcDoc'),
-	[Input(component_id  = 'ent-dropdown', component_property = 'value')]
+	[Input(component_id  = 'ent-dropdown', component_property = 'value'), Input(component_id  = 'node-count', component_property = 'value')]
 )
-def table_update(searchTerm):
-	sub_g = build_trimmed_subgraph(fullMeuller,searchTerm, n = 50)
+def table_update(search_term, node_count):
+	sub_g = build_trimmed_subgraph(fullMeuller,search_term, n = node_count)
 	sub_viz = visualizeGraph(sub_g)
 	return sub_viz.html
 # def print_input(theList, searchTerm):

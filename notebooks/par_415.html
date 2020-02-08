@@ -1,0 +1,191 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 500px;
+            height: 500px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+        /* position absolute is important and the container has to be relative or absolute as well. */
+	    div.popup {
+            position:absolute;
+            top:0px;
+            left:0px;
+            display:none;
+            background-color:#f5f4ed;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            border: 1px solid #808074;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+	    }
+
+	    /* hide the original tooltip */
+	    .vis-network-tooltip {
+	      display:none;
+	    }
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "grey", "id": "par_415", "label": "par_415", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e 2017, incoming National Security Advisor Michael Flynn falsely denied to the Vice President, other administration officials, and FBI agents that he had talked to Russian Ambassador Sergey Kislyak about Russia\u0027s response to U.S. sanctions on Russia for its election interference. On January 27, the day after the President was told that Flynn had lied to the Vice President and had made similar statements to the FBI, the President invited FBI Director Corney to a private dinner at the White House and told Corney that he needed loyalty. On February 14, the day after the President requested Flynn\u0027s resignation, the President told an outside advisor, \"Now that we fired Flynn, the Russia thing is over.\" The advisor disagreed and said the investigations would continue. Later that afternoon, the President cleared the Oval Office to have a one-on-one meeting with Corney. Referring to the FBI\u0027s investigation of Flynn, the President said, \"I hope you can see your way clear to letting this go, to letting Flynn go. He is a good guy. T hope you can let this go.\" Shortly after requesting Flynn\u0027s resignation and speaking privately to Corney, the President sought to have Deputy National Security Advisor K.T. McFarland draft an internal letter stating that the President had not directed Flynn to discuss sanctions with Kislyak. McFarland declined because she did not know whether that was true, and a White House Counsel\u0027s Office attorney thought that the request would look like a quid pro quo for an ambassadorship she had been offered. The President\u0027s reaction to the continuing Russia investigation. Tn February 2017, Attorney General Jeff Sessions began to assess whether he had to recuse himself from related investigations because of his role in the Trump Campaign. Tn early March, the President told White House Counsel Donald McGahn to stop Sessions from recusing. And after Sessions announced his recusal on March 2, the President expressed anger at the decision and told advisors that he should have an Attorney General who would protect him. That weekend, the President took Sessions aside at an event and urged him to \"unrecuse.\" Later in March, Corney publicly 3 \u003c/a\u003e", "value": 10}, {"color": "Red", "id": "Michael Flynn", "label": "Michael Flynn", "shape": "dot", "title": "Michael Flynn", "value": 27}, {"color": "Red", "id": "Sergey Kislyak", "label": "Sergey Kislyak", "shape": "dot", "title": "Sergey Kislyak", "value": 13}, {"color": "Blue", "id": "Russia", "label": "Russia", "shape": "dot", "title": "Russia", "value": 280}, {"color": "Red", "id": "Flynn", "label": "Flynn", "shape": "dot", "title": "Flynn", "value": 90}, {"color": "Red", "id": "Corney", "label": "Corney", "shape": "dot", "title": "Corney", "value": 97}, {"color": "Red", "id": "Kislyak", "label": "Kislyak", "shape": "dot", "title": "Kislyak", "value": 34}, {"color": "Red", "id": "McFarland", "label": "McFarland", "shape": "dot", "title": "McFarland", "value": 26}, {"color": "Blue", "id": "Tn", "label": "Tn", "shape": "dot", "title": "Tn", "value": 6}, {"color": "Red", "id": "Jeff", "label": "Jeff", "shape": "dot", "title": "Jeff", "value": 20}, {"color": "Red", "id": "Donald McGahn", "label": "Donald McGahn", "shape": "dot", "title": "Donald McGahn", "value": 4}]);
+        edges = new vis.DataSet([{"from": "par_415", "to": "Michael Flynn", "value": 1}, {"from": "par_415", "to": "Sergey Kislyak", "value": 1}, {"from": "par_415", "to": "Russia", "value": 4}, {"from": "par_415", "to": "Flynn", "value": 7}, {"from": "par_415", "to": "Corney", "value": 5}, {"from": "par_415", "to": "Kislyak", "value": 1}, {"from": "par_415", "to": "McFarland", "value": 1}, {"from": "par_415", "to": "Tn", "value": 2}, {"from": "par_415", "to": "Jeff", "value": 1}, {"from": "par_415", "to": "Donald McGahn", "value": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        // default to using dot shape for nodes
+        options.nodes = {
+            shape: "dot"
+        }
+        
+
+        network = new vis.Network(container, data, options);
+
+        
+        // make a custom popup
+        var popup = document.createElement("div");
+        popup.className = 'popup';
+        popupTimeout = null;
+        popup.addEventListener('mouseover', function () {
+            console.log(popup)
+            if (popupTimeout !== null) {
+                clearTimeout(popupTimeout);
+                popupTimeout = null;
+            }
+        });
+        popup.addEventListener('mouseout', function () {
+            if (popupTimeout === null) {
+                hidePopup();
+            }
+        });
+        container.appendChild(popup);
+
+
+        // use the popup event to show
+        network.on("showPopup", function (params) {
+            showPopup(params);
+        });
+
+        // use the hide event to hide it
+        network.on("hidePopup", function (params) {
+            hidePopup();
+        });
+
+
+        // hiding the popup through css
+        function hidePopup() {
+            popupTimeout = setTimeout(function () { popup.style.display = 'none'; }, 500);
+        }
+
+        // showing the popup
+        function showPopup(nodeId) {
+            // get the data from the vis.DataSet
+            var nodeData = nodes.get([nodeId]);
+            popup.innerHTML = nodeData[0].title;
+
+            // get the position of the node
+            var posCanvas = network.getPositions([nodeId])[nodeId];
+
+            // get the bounding box of the node
+            var boundingBox = network.getBoundingBox(nodeId);
+
+            //position tooltip:
+            posCanvas.x = posCanvas.x + 0.5 * (boundingBox.right - boundingBox.left);
+
+            // convert coordinates to the DOM space
+            var posDOM = network.canvasToDOM(posCanvas);
+
+            // Give it an offset
+            posDOM.x += 10;
+            posDOM.y -= 20;
+
+            // show and place the tooltip.
+            popup.style.display = 'block';
+            popup.style.top = posDOM.y + 'px';
+            popup.style.left = posDOM.x + 'px';
+        }
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

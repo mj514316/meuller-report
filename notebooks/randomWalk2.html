@@ -1,0 +1,191 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 500px;
+            height: 500px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+        /* position absolute is important and the container has to be relative or absolute as well. */
+	    div.popup {
+            position:absolute;
+            top:0px;
+            left:0px;
+            display:none;
+            background-color:#f5f4ed;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            border: 1px solid #808074;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+	    }
+
+	    /* hide the original tooltip */
+	    .vis-network-tooltip {
+	      display:none;
+	    }
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "Red", "id": "Simes 3/27", "label": "Simes 3/27", "shape": "dot", "title": "Simes 3/27", "value": 1}, {"color": "grey", "id": "par_237", "label": "par_237", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e , at 29-30; Simes 3/27/18 302, at 6; Kushner 4/11/18 302, at 12. 659 Simes 3/8/18 302, at 30; Simes 3/27 /l 8 302, at 6. 660 Simes 3/8/18 302, at 30. 661 Simes 3/8/18 302, at 30; Simes 3/27/18 302, at 6. 662 Kushner 4/11/18 302, at 12. 109 \u003c/a\u003e", "value": 3}, {"color": "Red", "id": "Werle", "label": "Werle", "shape": "dot", "title": "Werle", "value": 10}, {"color": "grey", "id": "par_493", "label": "par_493", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e U.S. Department ofJustice AttorHe\u0027.Y\u00b7 Werle Proeh:1et // Ma:y Cottta:iH Ma:teria:1 Proteetee UHeer Fee. R. Crim. P. 6(e) excused them, repeating that he wanted to speak only with Comey.233 At some point after others had left the Oval Office, Priebus opened the door, but the President sent him away.234 According to Corney\u0027s account of the meeting, once they were alone, the President began the conversation by saying, \"I want to talk about Mike Flynn.\"235 The President stated that Flynn had not done anything wrong in speaking with the Russians, but had to be terminated because he had misled the Vice President.236 The conversation turned to the topic of leaks of classified information, but the President returned to Flynn, saying \"he is a good guy and has been through a lot.\"237 The President stated, \"I hope you can see your way clear to letting this go, to letting Flynn go. He is a good guy. I hope you can let this go.\"238 Corney agreed that Flynn \"is a good guy,\" but did not commit to ending the investigation of Flynn.239 Corney testified under oath that he took the President\u0027s statement \"as a direction\" because of the President\u0027s position and the circumstances of the one-on-one meeting. 240 233 Corney 11/15/17 302, at 10; Corney 2/14/17 Memorandum, at I; Hearing on Russian Election Interference Before the Senate Select Intelligence Committee, 115th Cong. (June 8, 2017) (Statement for the Record of James B. Corney, former Director of the FBI, at 4). Sessions recalled that the President asked to speak to Corney alone and that Sessions was one of the last to leave the room; he described Corney\u0027s testimony about the events leading up to the private meeting with the President as \"pretty accurate.\" Sessions 1 /17/18 302, at 6. Kushner had no recollection of whether the President asked Corney to stay behind. Kushner 4/11/18 302, at 24. 234 Corney 2/14/17 Memorandum, at 2; Priebus I 0/13/17 302, at 18. 235 Corney 11/15/17 302, at 10; Corney 2/14/17 Memorandum, at 1; Hearing on Russian Election Interference Before the Senate Select Intelligence Committee, I 15th Cong. (June 8, 2017) (Statement for the Record of James B. Corney, former Director of the FBI, at 4). 236 Corney 2/14/ 17 Memorandum, at 1; Hearing on Russian Election Interference Before the Senate Select Intelligence Committee, I 15th Cong. (June 8, 2017) (Statement for the Record of James B. Corney, former Director of the FBI, at 5). 237 Corney 1 l \u003c/a\u003e", "value": 12}, {"color": "grey", "id": "par_499", "label": "par_499", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e U.S. Department of Justice AtterHe) Werle Prea1:1et // Ma,, CeHtaiH Material Proteetea UHaer Fee. R. Crim. P. 6(e) historic proportion!\"266 In late March or early April, the President asked McFarland to pass a message to Flynn telling him the President felt bad for him and that he should stay strong.267 Analysis In analyzing the President\u0027s conduct related to the Flynn investigation, the following evidence is relevant to the elements of obstruction of justice: a. Obstructive act. According to Corney\u0027s account of his February 14, 2017 meeting in the Oval Office, the President told him, \"I hope you can see your way clear to letting this go, to letting Flynn go .... I hope you can let this go.\" In analyzing whether these statements constitute an obstructive act, a threshold question is whether Corney\u0027s account of the interaction is accurate, and, if so, whether the President\u0027s statements had the tendency to impede the administration of justice by shutting down an inquiry that could result in a grand jury investigation and a criminal charge. After Corney\u0027s account of the President\u0027s request to \"let[] Flynn go\" became public, the President publicly disputed several aspects of the story. The President told the New York Times that he did not \"shoo other people out of the room\" when he talked to Corney and that he did not remember having a one-on-one conversation with Comey.268 The President also publicly denied that he had asked Corney to \"let[] Flynn go\" or otherwise communicated that Corney should drop the investigation ofFlynn.269 In private, the President denied aspects of Corney\u0027s account to White House advisors, but acknowledged to Priebus that he brought Flynn up in the meeting with Corney and stated that Flynn was a good guy.270 Despite those denials, substantial evidence corroborates Corney\u0027s account. 266 @realDonaldTrump 3/31 /l 7 (7:04 a.m. ET) Tweet; see Shane Harris at al., Mike Flynn Offers to Testify in Exchange for Immunity, Wall Street Journal (Mar. 30, 2017). 267McFarland 12/22/17 302, at 18. 268 Excerpts From The Times \u0027s Interview With Trump, New York Times (July 19, 2017). Hicks recalled that the President told her he had never asked Corney to stay behind in his office. Hicks 12/8/17 302, at 12. 269 In a statement on May 16, 2017, the White House said: \"While the President has repeatedly expressed his view that General Flynn is a decent man who served and protected our country, the President has never asked Mr. Corney or anyone else to end any investigation, including any investigation involving General Flynn .... This is not a truthful or accurate portrayal of the conversation between the President and Mr. Corney.\" See Michael S. Schmidt, Camey Memorandum Says Trump Asked Him to End Flynn Investigation, New York Times (May 16, 2017) (quoting White House statement); @realDonaldTrump 12/3/17 (6: 15 a.m. ET) Tweet (\"I never asked Corney to stop investigating Flynn. Just more Fake News covering another Corney lie!\"). 270 Priebus recalled that the President acknowledged telling Corney that Flynn was a good guy and he hoped \"everything worked out for him.\" Priebus I 0/13/17 302, at 19. McGahn recalled that the President denied saying to Corney that he hoped Corney would let Flynn go, but added that he was \"allowed to hope.\" The President told McGahn he did not think he had crossed any lines. McGahn 12/14/17 302, at 8. 44 \u003c/a\u003e", "value": 12}, {"color": "grey", "id": "par_453", "label": "par_453", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e foreign entity during the campaign.\"56 On December 10, 2016, the press reported that U.S. intelligence agencies had \"concluded that Russia interfered in last month\u0027s presidential election to boost Donald Trump\u0027s bid for the White House.\"57 Reacting to the story the next day, President-Elect Trump stated, \"I think it\u0027s ridiculous. I think it\u0027s just another excuse.\"58 He continued that no one really knew who was responsible for the hacking, suggesting that the intelligence community had \"no idea if it\u0027s Russia or China or somebody. It could be somebody sitting in a bed some place.\"59 The President-Elect 53 Louis Nelson, Pence denies Trump camp in cahoots with WikiLeaks, Politico (Oct. 14, 2016). 54 Ivan Nechepurenko, Russian Officials Were in Contact With Trump Allies, Diplomat Says, New York Times (Nov. 10, 2016) (quoting Russian Deputy Foreign Minister Sergey Ryabkov saying, \"[t]here were contacts\" and \"[ cannot say that all, but a number of them maintained contacts with Russian representatives\"); Jim Heintz \u0026 Matthew Lee, Russia eyes better ties with Trump; says contacts underway, Associated Press (Nov. 11, 2016) (quoting Ryabkov saying, \"I don\u0027t say that all of them, but a whole array of them supported contacts with Russian representatives\"). 55 Ivan Nechepurenko, Russian Officials Were in Contact With Trump Allies, Diplomat Says, New York Times (Nov. 11, 2016) (quoting Hicks). 56 Jim Heintz \u0026 Matthew Lee, Russia eyes better ties with Trump; says contacts underway, Associated Press (Nov. I 0, 2016) (quoting Hicks). Hicks recalled that after she made that statement, she spoke with Campaign advisors Kellyanne Conway, Stephen Miller, Jason Miller, and probably Kushner and Bannon to ensure it was accurate, and there was no hesitation or pushback from any of them. Hicks 12/8/17 302, at 4. 57 Damien Gayle, CIA concludes Russia interfered to help Trump win election, say r\u003c/a\u003e", "value": 20}, {"color": "Blue", "id": "Ryabkov", "label": "Ryabkov", "shape": "dot", "title": "Ryabkov", "value": 1}, {"color": "Red", "id": "Hicks", "label": "Hicks", "shape": "dot", "title": "Hicks", "value": 38}, {"color": "Red", "id": "Kushner", "label": "Kushner", "shape": "dot", "title": "Kushner", "value": 48}, {"color": "Red", "id": "57 Damien Gayle", "label": "57 Damien Gayle", "shape": "dot", "title": "57 Damien Gayle", "value": 1}, {"color": "grey", "id": "par_643", "label": "par_643", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e rejected the advice of Hicks and other staffers to publicly release information about the June 9 meeting. The President expressed concern that multiple people had access to the emails and instructed Hicks that only one lawyer should deal with the matter. And the President 106 \u003c/a\u003e", "value": 2}]);
+        edges = new vis.DataSet([{"from": "Simes 3/27", "to": "par_237", "value": 1}, {"from": "Werle", "to": "par_493", "value": 1}, {"from": "Werle", "to": "par_499", "value": 1}, {"from": "par_453", "to": "Ryabkov", "value": 1}, {"from": "par_453", "to": "Hicks", "value": 4}, {"from": "par_453", "to": "Kushner", "value": 1}, {"from": "par_453", "to": "57 Damien Gayle", "value": 1}, {"from": "par_237", "to": "Kushner", "value": 2}, {"from": "par_499", "to": "Hicks", "value": 1}, {"from": "par_493", "to": "Kushner", "value": 2}, {"from": "Hicks", "to": "par_643", "value": 2}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        // default to using dot shape for nodes
+        options.nodes = {
+            shape: "dot"
+        }
+        
+
+        network = new vis.Network(container, data, options);
+
+        
+        // make a custom popup
+        var popup = document.createElement("div");
+        popup.className = 'popup';
+        popupTimeout = null;
+        popup.addEventListener('mouseover', function () {
+            console.log(popup)
+            if (popupTimeout !== null) {
+                clearTimeout(popupTimeout);
+                popupTimeout = null;
+            }
+        });
+        popup.addEventListener('mouseout', function () {
+            if (popupTimeout === null) {
+                hidePopup();
+            }
+        });
+        container.appendChild(popup);
+
+
+        // use the popup event to show
+        network.on("showPopup", function (params) {
+            showPopup(params);
+        });
+
+        // use the hide event to hide it
+        network.on("hidePopup", function (params) {
+            hidePopup();
+        });
+
+
+        // hiding the popup through css
+        function hidePopup() {
+            popupTimeout = setTimeout(function () { popup.style.display = 'none'; }, 500);
+        }
+
+        // showing the popup
+        function showPopup(nodeId) {
+            // get the data from the vis.DataSet
+            var nodeData = nodes.get([nodeId]);
+            popup.innerHTML = nodeData[0].title;
+
+            // get the position of the node
+            var posCanvas = network.getPositions([nodeId])[nodeId];
+
+            // get the bounding box of the node
+            var boundingBox = network.getBoundingBox(nodeId);
+
+            //position tooltip:
+            posCanvas.x = posCanvas.x + 0.5 * (boundingBox.right - boundingBox.left);
+
+            // convert coordinates to the DOM space
+            var posDOM = network.canvasToDOM(posCanvas);
+
+            // Give it an offset
+            posDOM.x += 10;
+            posDOM.y -= 20;
+
+            // show and place the tooltip.
+            popup.style.display = 'block';
+            popup.style.top = posDOM.y + 'px';
+            popup.style.left = posDOM.x + 'px';
+        }
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 450px;
+            height: 450px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+        /* position absolute is important and the container has to be relative or absolute as well. */
+	    div.popup {
+            position:absolute;
+            top:0px;
+            left:0px;
+            display:none;
+            background-color:#f5f4ed;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            border: 1px solid #808074;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+	    }
+
+	    /* hide the original tooltip */
+	    .vis-network-tooltip {
+	      display:none;
+	    }
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "grey", "id": "par_292", "label": "par_292", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e U.S. Department of Justice Attomey Work Pt1oduet // Mtty Cottt:ttttt Mttt:erittl Pfet:eet:ed Uttdet\u0027 Fed. R. Ct\u0027iffl. P. 6(e) and having Yanukovych, the Ukrainian President ousted in 2014, elected to head that republic.923 That plan, Manafort later acknowledged, constituted a \"backdoor\" means for Russia to control eastern Ukraine.924 Manafort initially said that, if he had not cut off the discussion, Kilimnik would have asked Manafort in the August 2 meeting to convince Trump to come out in favor of the peace plan, and Yanukovych would have expected Manafort to use his connections in Europe and Ukraine to support the plan.925 Manafort also initially told the Office that he had said to Kilimnik that the plan was crazy, that the discussion ended, and that he did not recall Kilimnik askin Manafort to reconsider the Ian after their Au ust 2 meetin .926 Manafort said that he reacted negatively to Yanukovych sending-years later-an \"urgent\" request when Yanukovych needed him.927 When confronted with an email written by Kilimnik on or about December 8, 2016, however, Manafort acknowledged Kilimnik raised the peace plan again in that email.928 Manafort ultimately acknowled ed Kilimnik also raised the eace Ian in ~ary 2017 meetings with Manafort .......... 929 Second, Manafort briefed Kilimnik on the state of the Trump Campaign and Manafort\u0027s plan to win the election.930 That briefing encompassed the Campaign\u0027s messaging and its internal polling data. According to Gates, it also included discussion of \"battleground\" states, which Manafort identified as Michigan, Wisconsin, Pennsylvania, and Minnesota.931 Manafort did not refer ex licit! to \"battle round\" states in his tellin of the Au ust 2 discussion, prime minister. The plan emphasized that Yanukovych would be an ideal candidate to bring peace to the region as prime minister of the republic, and facilitate the reintegration of the re~aine with the support of the U.S. and Russian presidents. As noted above, according to the written documentation describin the Ian, for the lan to work, both U.S. and Russian support were necessary. 925 Manafort 9/11/18 302, at 4. 926 Manafort 9/12/18 302, at 4. 927 302, at 4. 928 Manafort 9/12/18 302, at 4; 2/21/18 Email, Manafort, Ward, \u0026 Fabrizio, at 3-5. Manafort 9/11/18 302, at 5; Manafort 9/12/18 Investigative Technique 929 Documentary evidence confirms the peace-plan discus~ions in 2018. 2/19/18 Email, Fabrizio to Ward (forwarding email from Manafort); 2/21/18 Email, Manafort to Ward \u0026 Fabrizio. 930 Manafort 9/11/18 302, at 5. 931 Gates 1/30/18 302, at 3, 5. 932 140 \u003c/a\u003e", "value": 17}, {"color": "Blue", "id": "Russia", "label": "Russia", "shape": "dot", "title": "Russia", "value": 280}, {"color": "Blue", "id": "Ukraine", "label": "Ukraine", "shape": "dot", "title": "Ukraine", "value": 47}, {"color": "Black", "id": "email", "label": "email", "shape": "dot", "title": "email", "value": 106}, {"color": "grey", "id": "par_838", "label": "par_838", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e isits to Moscow. Foreign policy advisor to the Trump Campaign who received information from Joseph Mifsud that Russians had \"dirt\" in the form of thousands of Clinton emails. He pleaded guilty to lying to the FBI about his contact with Mifsud. Digital media director for the 2016 Trump Campaign. Lobbyist and business partner of Konstantin Kilimnik. Deputy chief of staff of and press secretary for the Russian presidential administration. Foreign p\u003c/a\u003e", "value": 5}, {"color": "Red", "id": "Konstantin Kilimnik", "label": "Konstantin Kilimnik", "shape": "dot", "title": "Konstantin Kilimnik", "value": 9}, {"color": "grey", "id": "par_39", "label": "par_39", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e U.S. Department of Justice AttorAe:y\u0141 Work Proa1:1et // Miey CotttaiA Material PFOteetea Uttaer Fea. R. Crim. P. 6(e) Manafort lied to the Office and the grand jury concerning his interactions and communications with Konstantin Kilimnik about Trump Campaign polling data and a peace plan for Ukraine. * * * \u003c/a\u003e", "value": 3}, {"color": "grey", "id": "par_279", "label": "par_279", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e U.S. Department of Justice Att6mey W6rk Prndttet // Miey Cmitaitt Material Preteeted Umier Fed. R. Crim. P. 6(e) to a deterioration of the relationship between Manafort and Deripaska.849 In pa1ticular, when the fund failed, litigation between Manafort and Deripaska ensued. Gates stated that, by 2009, Manafort\u0027s business relationship with Deripaska had \"dried up.\"850 According to Gates, various interactions with Deripaska and his intermediaries over the past few years have involved trying to resolve the legal dispute. 851 As described below, in 2016, Manafort, Gates, Kilimnik, and others engaged in efforts to revive the Deripaska relationship and resolve the litigation. ii. Political Consulting Work Through Deripaska, Manafort was introduced to Rinat Akhmetov, a Ukrainian oligarch who hired Manafort as a political consultant.852 In 2005, Akhmetov hired Manafort to engage in political work supporting the Party of Regions,853 a political party in Ukraine that was generally understood to align with Russia. Manafort assisted the Party of Regions in regaining power, and its candidate, Viktor Yanukovych, won the presidency in 2010. Manafort became a close and trusted political advisor to Y anukovych during his time as President of Ukraine. Y anukovych served in that role until 2014, when he fled to Russia amidst popular protests.854 iii. Konstantin Kilimnik Kilimnik is a Russian national who has lived in both Russia and Ukraine and was a longtime Manafort employee.855 Kilimnik had direct and close access to Yanukovych and his senior entourage, and he facilitated communications between Manafort and his clients, including Yanukovych and multiple Ukrainian oligarchs.856 Kilimnik also maintained a relationship with Deripaska\u0027s deputy, Viktor Boyarkin,857 a Russian national who previously served in the defense attache office of the Russian Embassy to the United \u003c/a\u003e", "value": 12}, {"color": "grey", "id": "par_340", "label": "par_340", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e ain visited Moscow in an attem t to ursue business o ortunities.II95 According to Konstantin Kilimnik, Paul Manafort\u0027 s associate, Page also gave some individuals in Russia the impression that he had maintained his connections to President-Elect Trump. In a December 8, 2016 email intended for Manafort, Kilimnik wrote, \"Carter Page is in Moscow today, sending messages he is authorized to talk to Russia on behalf of DT on a range of issues of mutual interest, including Ukraine.\"1197 On December 9, 2016, Page went to dinner with NES employees Shlomo Weber and Andrej Krickovic.I198 Weber had contacted Dvorkovich to let him know that Page was in town and to invite him to stop by the dinner if he wished to do so, and Dvorkovich came to the restaurant for a few minutes to meet with Page.1I99 Dvorkovich congratulated Page on Trump\u0027s election and expressed interest in starting a dialogue between the United States and Russia.1200 Dvorkovich asked Page if he could facilitate connecting Dvorkovich with individuals involved in the transition to be in a discussion of future coo eration.1201 1194 Aven 8/2/18 302, at 8; 1195 Page 3/10/17 302, at 4; Page 3/16/17 302, at 3; Among other meetings, Page contacted Andrey Baranov, head of investor relations at Rosneft,~ the sale of Rosneft and meetings Baranov had attended with Rosneft CEO Igor Sechin. ----1197 Investigative Technique 1198 Page 3/16/17 302, at 3; Page 3/30/17 302, at 8. 1199 Weber 7/28/17 302, at 4; Page 3/16/17 302, at 3; 1200 Page 3/16/17 302, at 3; 1202 1203 166 \u003c/a\u003e", "value": 17}, {"color": "grey", "id": "par_891", "label": "par_891", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e U.S. Department of Justice At\u0027lertle)\u0027 \u0027.\\\u0027erk Preauet // Ma)\u0027\u0027 CeAtaiA Material Preteetea UAaer Fee. R. Crim. P. 6(e) 3. United States v. Richard Gates U.S. Attorney\u0027s Office for the District of Columbia (Awaiting sentencing) 4. United States v. Internet Research Agency, et al. (Russian Social Media Campaign) U.S. Attorney\u0027s Office for the District of Columbia National Security Division (Post-indictment, pre-arrest \u0026 pre-trial 1) 5. United States v. Konstantin Kilimnik U.S. Attorney\u0027s Office for the District of Columbia (Post-indictment, pre-arrest) 6. United States v. Paul Manafort U.S. Attorney\u0027s Office for the District of Columbia U.S. Attorney\u0027s Office for the Eastern District of Virginia (Post-conviction) 7. United States v. Viktor Netyksho, et al. (Russian Hacking Operations) U.S. Attorney\u0027s Office for the Western District of Pennsylvania National Security Division (Post-indictment, pre-arrest) 8. United States v. William Samuel Patten U.S. Attorney\u0027s Office for the District of Columbia (Awaiting sentencing) The Acting Attorney General authorized the Special Counsel to investigate aspects of Patten\u0027s conduct that related to another matter that was under investigation by the Office. The investigation uncovered evidence of a crime; the U.S. Attorney\u0027s Office for the District of Columbia handled the prosecution of Patten. 9. Harm to Ongoing Matter (Investigation ongoing) The Acting Attorney General authorized the Special Counsel to investigate, among other things, crime or crimes arising out of payments Paul Manafort received from the Ukrainian government before and during the tenure of President Viktor Yanukovych. See August 2, 2017 Memorandum from Rod J. Rosenstein to Robert S. Mueller, Ill. The Acting Attorney General 1 One defendant, Concord Management \u0026 Consulting LLC, appeared through counsel and is in trial litigation. D-2 \u003c/a\u003e", "value": 9}, {"color": "Red", "id": "Viktor Yanukovych", "label": "Viktor Yanukovych", "shape": "dot", "title": "Viktor Yanukovych", "value": 2}, {"color": "grey", "id": "par_126", "label": "par_126", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e U.S. Department of Justice Attort1ey Work Prndttet ,\u0027/ May Cot1:tait1: Material Proteeted Ut1:der Fed. R. Cri1fl. P. 6(e) circumstances, it doesn\u0027t necessarily mean that the two are connected. But it is a very serious matter ... that type of allegation is very serious, as it\u0027s taken very seriously by us.\"181 After the U.S. intelligence community publicly announced its assessment that Russia was behind the hacking operation, Assange continued to deny that the Clinton materials released by WikiLeaks had come from Russian hacking. According to media reports, Assange told a U.S. congressman that the DNC hack was an \"inside job,\" and purported to have \"physical proof\u0027 that Russians did not give materials to Assange. 182 C. Additional GRU Cyber Operations While releasing the stolen emails and documents through DCLeaks, Guccifer 2.0, and WikiLeaks, GRU officers continued to target and hack victims linked to the Democratic campaign and, eventually, to target entities responsible for election administration in several states. 1. Summer and Fall 2016 Operations Targeting Democrat-Linked Victims On July 27 2016, Unit 26165 targeted email accounts connected to candidate Clinton\u0027s personal office . Earlier that day, candidate Trump made public statements that included the following: \"Russia, if you\u0027re listening, I hope you\u0027re able to find the 30,000 emails that are missing. I think you will probably be rewarded mightily by our press.\"183 The \"30,000 emails\" were apparently a reference to emails described in media accounts as having been stored on a personal server that candidate Clinton had used while serving as Secretary of State. Within approximately five hours of Trump\u0027s statement, GRU officers targeted for the first time Clinton\u0027s personal office. After candidate Trump\u0027s remarks, Unit 26165 created and sent malicious links targeting 15 email accounts at the domain including an email account belonging to Clinton aide The investigation did not find evidence of earlier GRU attempts to compromise accounts hosted on this domain. It is unclear how the GRU was able to identify these email accounts, which were not public.184 Unit 26165 officers also hacked into a DNC account hosted on a cloud-computing service copies of the DNC da databases (referred to On September 20, 2016, the GRU began to generate function designed to allow users to produce backups of as \"snapshots\"). The GRU then stole those snapshots by moving 181 See Assange: \"Murdered DNC Staffer Was \u0027Potential\u0027 WikiLeaks Source,\" Fox News (Aug. 25, 2016)(containing video of Assange interview by Megyn Kelly). 182 M. Raju \u0026 Z. Cohen, A GOP Congressman\u0027s Lonely Quest Defending Julian Assange, CNN (May 23, 2018). 183 \"Donald Trump on Russian \u0026 Missing Hillary Clinton Emails,\" YouTube Channel C-SPAN, Posted 7/27/16, available at https://www.youtube.com/watch?v=3kxG8uJUsWU (starting at 0:41). 49 \u003c/a\u003e", "value": 16}, {"color": "Red", "id": "Attort1ey", "label": "Attort1ey", "shape": "dot", "title": "Attort1ey", "value": 2}]);
+        edges = new vis.DataSet([{"from": "par_292", "to": "Russia", "value": 1}, {"from": "par_292", "to": "Ukraine", "value": 1}, {"from": "par_292", "to": "email", "value": 2}, {"from": "par_838", "to": "Konstantin Kilimnik", "value": 1}, {"from": "Ukraine", "to": "par_39", "value": 1}, {"from": "Ukraine", "to": "par_279", "value": 3}, {"from": "par_340", "to": "Konstantin Kilimnik", "value": 1}, {"from": "par_340", "to": "Russia", "value": 2}, {"from": "par_340", "to": "email", "value": 1}, {"from": "Konstantin Kilimnik", "to": "par_39", "value": 1}, {"from": "Konstantin Kilimnik", "to": "par_891", "value": 1}, {"from": "par_279", "to": "Russia", "value": 3}, {"from": "par_279", "to": "Viktor Yanukovych", "value": 1}, {"from": "par_126", "to": "Attort1ey", "value": 1}, {"from": "par_126", "to": "Russia", "value": 2}, {"from": "par_126", "to": "email", "value": 4}, {"from": "Viktor Yanukovych", "to": "par_891", "value": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        // default to using dot shape for nodes
+        options.nodes = {
+            shape: "dot"
+        }
+        
+
+        network = new vis.Network(container, data, options);
+
+        
+        // make a custom popup
+        var popup = document.createElement("div");
+        popup.className = 'popup';
+        popupTimeout = null;
+        popup.addEventListener('mouseover', function () {
+            console.log(popup)
+            if (popupTimeout !== null) {
+                clearTimeout(popupTimeout);
+                popupTimeout = null;
+            }
+        });
+        popup.addEventListener('mouseout', function () {
+            if (popupTimeout === null) {
+                hidePopup();
+            }
+        });
+        container.appendChild(popup);
+
+
+        // use the popup event to show
+        network.on("showPopup", function (params) {
+            showPopup(params);
+        });
+
+        // use the hide event to hide it
+        network.on("hidePopup", function (params) {
+            hidePopup();
+        });
+
+
+        // hiding the popup through css
+        function hidePopup() {
+            popupTimeout = setTimeout(function () { popup.style.display = 'none'; }, 500);
+        }
+
+        // showing the popup
+        function showPopup(nodeId) {
+            // get the data from the vis.DataSet
+            var nodeData = nodes.get([nodeId]);
+            popup.innerHTML = nodeData[0].title;
+
+            // get the position of the node
+            var posCanvas = network.getPositions([nodeId])[nodeId];
+
+            // get the bounding box of the node
+            var boundingBox = network.getBoundingBox(nodeId);
+
+            //position tooltip:
+            posCanvas.x = posCanvas.x + 0.5 * (boundingBox.right - boundingBox.left);
+
+            // convert coordinates to the DOM space
+            var posDOM = network.canvasToDOM(posCanvas);
+
+            // Give it an offset
+            posDOM.x += 10;
+            posDOM.y -= 20;
+
+            // show and place the tooltip.
+            popup.style.display = 'block';
+            popup.style.top = posDOM.y + 'px';
+            popup.style.left = posDOM.x + 'px';
+        }
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

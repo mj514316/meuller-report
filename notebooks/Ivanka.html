@@ -1,0 +1,191 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 500px;
+            height: 500px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+        /* position absolute is important and the container has to be relative or absolute as well. */
+	    div.popup {
+            position:absolute;
+            top:0px;
+            left:0px;
+            display:none;
+            background-color:#f5f4ed;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            border: 1px solid #808074;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+	    }
+
+	    /* hide the original tooltip */
+	    .vis-network-tooltip {
+	      display:none;
+	    }
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "Red", "id": "McGee", "label": "McGee", "shape": "dot", "title": "McGee", "value": 1}, {"color": "grey", "id": "par_160", "label": "par_160", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e U.S. Department of Justice Attet\u0027Aey Werk Preauet // May CeAtaiA Material Preteetea UAaer Fee. R. Crifl\u0027I. P. 6(e) an agreement for the Trump Tower Moscow project.294 On December 23, 2013, after discussions with Donald J. Trump, the Trump Organization agreed to accept an arrangement whereby the organization received a flat 3.5% commission on all sales, with no licensing fees or incentives.295 The parties negotiated a letter of intent during January and February 2014.296 From January 2014 through November 2014, the Trump Organization and Crocus Group discussed development plans for the Moscow project. Some time before January 24, 2014, the Crocus Group sent the Trump Organization a proposal for a 800-unit, 194-meter building to be \u00b7 constructed at an Agalarov-owned site in Moscow called \"Crocus City,\" which had also been the site of the Miss Universe pageant.297 In February 2014, Ivanka Trump met with Emin Agalarov and toured the Crocus City site during a visit to Moscow.298 From March 2014 through July 2014, the groups discussed \"design standards\" and other architectural elements.299 For example, in July 2014, members of the Trump Organization sent Crocus Group counterparties questions about the \"demographics of these prospective buyers\" in the Crocus City area, the development of neighboring parcels in Crocus City, and concepts for redesigning portions of the building.300 In August 2014, the Trump Organization requested specifications for a competing Marriott-branded tower being built in Crocus City.301 Beginning in September 2014, the Trump Organization stopped responding in a timely fashion to correspondence and proposals from the Crocus Group.302 Communications between the two groups continued through November 2014 with decreasing frequency; what appears to be the last communication is dated November 24, 2014.303 The project appears not to have developed past the planning stage, and no construction occurred. 294 295 OSC-KA V _00452 (12/23/13 Email, Trmnp Jr. to Kaveladze \u0026 E. Agalarov). 296 See, e.g., OSC-KAV _01158 (Letter agreement signed by Trump Jr. \u0026 E. Agalarov); KAV _01147 (1/20/14 Email, Kaveladze to Trump Jr. et al.). 297 See, e.g., OSC-KA V _00972 (10/14/14 Email, McGee to Khoo et al.) (email from Crocus Group contractor about specifications); OSC-KA V _00540 (1/24/14 Email, McGee to Trump Jr. et al.). 298 See OSC-KA V 00631 (2/5/14 Email, E. A~alarov to Ivanka Tn~ump Jr. \u0026 Kaveladze ); Goldstone Facebook post, 2/4/14 (8:01 a.m.)jjjijfiU(\\h\u0027llffi@[lm\u0141--299 See, e.g., OSC-KAV_00791 (6/3/14 Email, Kaveladze to Trump Jr. et al.; OSC-KAV_00799 (6/10/14 Email, Trump Jr. to Kaveladze et al.); OSC-KA V _00817 (6/16/14 Email, Trump Jr. to Kaveladze et al.). 300 OSC-KAV 00870 (7/17/14 Email, Khoo to McGee et al.). 301 OSC-KA V _00855 (8/4/14 Email, Khoo to McGee et al.). 302 OSC-KA V _ 00903 (9/29/14 Email, Tropea to McGee \u0026 Kaveladze (noting last response was on August 26, 2014)); OSC-KAV _00906 (9/29/14 Email, Kaveladze to Tropea \u0026 McGee (suggesting silence \"proves my fear that those guys are bailing out of the project\")); OSC-KA V _00972 (10/14/14 Email, McGee to Khoo et al.) (email from Crocus Group contractor about development specifications)). 303 OSC-KA V _ 01140 ( 11/24/14 Email, Khoo to McGee et al.). 68 \u003c/a\u003e", "value": 14}, {"color": "Red", "id": "Werle", "label": "Werle", "shape": "dot", "title": "Werle", "value": 10}, {"color": "grey", "id": "par_629", "label": "par_629", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e U.S. Department of Justice At:temey Werle Predttet // Mt1)\u0027 Cettttlitt Mt1terit1l PreteeteEI UrtEier Fee. R. Criffl. P. 6(e) of the President\u0027s personal attorneys, who told Priebus he was already working on it.673 By late June, several advisors recalled receiving media inquiries that could relate to the June 9 meeting.674 2. The President Directs Communications Staff Not to Publicly Disclose Information About the June 9 Meeting Communications advisors Hope Hicks and Josh Raffel recalled discussing with Jared Kushner and Ivanka Trump that the emails were damaging and would inevitably be leaked.675 Hicks and Raffel advised that the best strategy was to proactively release the emails to the press.676 On or about June 22, 2017, Hicks attended a meeting in the White House residence with the President, Kushner, and Ivanka Trump.677 According to Hicks, Kushner said that he wanted to fill the President in on something that had been discovered in the documents he was to provide to the congressional committees involving a meeting with him, Manafort, and Trump Jr.678 Kushner brought a folder of documents to the meeting and tried to show them to the President, but the President stopped Kushner and said he did not want to know about it, shutting the conversation down.679 On June 28, 2017, Hicks viewed the emails at Kushner\u0027s attorney\u0027s office.680 She recalled being shocked by the emails because they looked \"really bad.\"681 The next day, Hicks spoke privately with the President to mention her concern about the emails, which she understood were soon going to be shared with Congress.682 The President seemed upset because too many people knew about the emails and he told Hicks that just one lawyer should deal with the matter.683 The President indicated that he did not think the emails would leak, but said they would leak if everyone had access to them.684 673 Priebus 4/3/18 302, at 7. 674 Corallo 2/ 15/ 18 3 02, at 3; Hicks 12/7/ 17 302, at 8; Raffel 2/8/ l 8 302, at 3. 675 Raffel 2/8/18 302, at 2-3; Hicks 3/13/18 302, at 2. 676 Raffel 2/8/18 302, at 2-3, 5; Hicks 3/13/ l 8 302, at 2; Hicks 12/7/17 302, at 8. 677 Hicks 12/7/17 302, at 6-7; Hicks 3/13/18 302, at I. 678 Hicks 12/7/17 302, at 7; Hicks 3/13/18 302, at 1. 679 Hicks 12/7/17 302, at 7; Hicks 3/13/18 302, at I. Counsel for Ivanka Trump provided an attorney proffer that is consistent with Hicks\u0027s account and with the other events involving lvanka Trump set forth in this section of the report. Kushner said that he did not recall talking to the President at this time about the June 9 meeting or the underlying emails. Kushner 4/11/18 302, at 30. 680 Hicks 3/13/18 302, at 1-2. 681 Hicks 3/13/18 302, at 2. 682 Hicks I 2/7117 3 02, at 8. 683 Hicks 3/13/18 302, at 2-3; Hicks 12/7/17 302, at 8. 684 Hicks 12/7 /l 7 302, at 8. 100 \u003c/a\u003e", "value": 14}, {"color": "Red", "id": "Goldstone Facebook", "label": "Goldstone Facebook", "shape": "dot", "title": "Goldstone Facebook", "value": 1}, {"color": "Blue", "id": "Kyrgyzstan", "label": "Kyrgyzstan", "shape": "dot", "title": "Kyrgyzstan", "value": 1}, {"color": "grey", "id": "par_251", "label": "par_251", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e U.S. Department of Justice Atist1ney Wst1k Pred1:1et // Ma:y Csnta:in Ma:teria:l Pt1steeted Undet1 Fed. R. Crim.. P. 6(e) meeting the following day with Trump Jr.699 Later that day, Trump Jr. forwarded the entirety of his email correspondence regarding the meeting with Goldstone to Manafort and Kushner, under the subject line \"FW: Russia -Clinton -private and confidential,\" adding a note that the \"[m]eeting got moved to 4 tomorrow at my offices.\"70\u00b0 Kushner then sent his assistant a second email, informing her that the \"[m]eeting with don jr is 4pm now.\"701 Manafort responded, \"See you then. P. \"702 Rick Gates, who was the deputy campaign chairman, stated during interviews with the Office that in the days before June 9, 2016 Trump Jr. announced at a regular morning meeting of senior campaign staff and Trump family members that he had a lead on negative information about the Clinton Foundation.703 Gates believed that Trump Jr. said the information was coming from a group in Kyrgyzstan and that he was introduced to the group by a friend.704 Gates recalled that the meeting was attended by Trump Jr., Eric Trump, Paul Manafort, Hope Hicks, and, joining late, Ivanka Trump and Jared Kushner. According to Gates, Manafort warned the group that the meeting likely would not yield vital information and they should be careful.705 Hicks denied any knowledge of the June 9 meeting before 2017,706 and Kushner did not recall if the planned June 9 meeting came up at all earlier that week.707 Michael Cohen recalled being in Donald J. Trump\u0027s office on June 6 or 7 when Trump Jr. told his father that a meeting to obtain adverse information about Clinton was going forward.708 Cohen did not recall Trump Jr. stating that the meeting was connected to Russia.709 From the tenor of the conversation, Cohen believed that Trump Jr. had previously discussed the meeting with his father, although Cohen was not involved in any such conversation.710 In an interview with the Senate Judiciary Committee, however, Trump Jr. stated that he did not inform his father about the 699 NOSC0000007-08 (6/8/18 Email, Kushner to Vargas). 700 NOSC00000039-42 (6/8/16 Email, Trump Jr. to Kushner \u0026 Manafort); DJTJR00485 (6/8/16 Email, Trump Jr. to Kushner \u0026 Manafort). 701 NOSC0000004 (6/8/16 Email, Kushner to Vargas). 702 6/8/16 Email, Manafo1t to Trump Jr. 703 Gates 1/30/18 302, at 7; Gates 3/1/18 302, at 3-4. Although the March l 302 refers to \"June 19,\" that is likely a typographical error; external emails indicate that a meeting with those participants occurred on June 6. See NOSC00023603 (6/6/16 Email, Gates to Trump Jr. et al.). 704 Gates 1/30/18 302, at 7. Aras Agalarov is originally from Azerbaijan, and public reporting indicates that his company, the Crocus Group, has done substantial work in Kyrgyzstan. See Neil MacFarquhar, A Russian Developer Helps Out the Kremlin on Occasion. Was He a Conduit to Trump?, New York Times (July 16, 2017). 705 Gates 3/1/18 302, at 3-4. 706 Hicks 12/7117 302, at 6. 707 Kushner 4/11/18 302, at 8. 708 Cohen 8/7/18 302, at 4-6. 709 Cohen 8/7 /18 302, at 4-5. 71\u00b0 Cohen 9/12/18 302, at 15-16. 115 \u003c/a\u003e", "value": 28}, {"color": "Red", "id": "Hope Hicks", "label": "Hope Hicks", "shape": "dot", "title": "Hope Hicks", "value": 6}, {"color": "Blue", "id": "Crimea", "label": "Crimea", "shape": "dot", "title": "Crimea", "value": 6}, {"color": "grey", "id": "par_177", "label": "par_177", "shape": "dot", "title": "\u003ca href=\"#\" title=\"Line 1\u0026#5;Line 2\u0026#5;Line 3\"\u003e U.S. Department of Justice Atl:erfl:ey Werk Predttet // May Cetttaitt Material PreteeteEI UttEier Fed. R. Crim. P. 6(e) company, and had been previously employed as an aide and press secretary to Russia\u0027s energy minister. Ivanka Trump forwarded the email to Cohen.335 He told the Office that, after receiving this inquiry, he had conducted an internet search for Klokov\u0027s name and concluded (incorrectly) that Klokov was a former Olympic weightlifter.336 Between November 18 and 19, 2015,-Klokov and Cohen had at least one telephone call and exchanged several emails. Describing himself in emails to Cohen as a \"trusted person\" who could offer the Campaign \"political synergy\" and \"synergy on a government level,\" Klokov recommended that Cohen travel to Russia to speak with him and an unidentified intermediary. Klokov said that those conversations could facilitate a later meeting in Russia between the candidate and an individual Klokov described as \"our person of interest.\"337 In an email to the Office, Erchova later identified the \"person of interest\" as Russian President Vladimir Putin. 338 In the telephone call and follow-on emails with Klokov, Cohen discussed his desire to use a near-term trip to Russia to do site surveys and talk over the Trump Moscow project with local developers. Cohen registered his willingness also to meet with Klokov and the unidentified intermediary, but was emphatic that all meetings in Russia involving him or candidate including a possible meeting between candidate Trump and Putin-would need to be \"in conjunction with the development and an official visit\" with the Trump Organization receiving a formal invitation to visit.339 (Klokov had written previously that \"the visit [by candidate Trump to Russia] has to be informal.\")340 Klokov had also previously recommended to Cohen that he separate their negotiations over a possible meeting between Trump and \"the person of interest\" from any existing business track. 341 Re-emphasizing that his outreach was not done on behalf of any business, Klokov added in second email to Cohen that, if publicized well, such a meeting could have \"phenomenal\" impact \"in a business dimension\" and that the \"person of interest[\u0027s]\" \"most important support\" could have significant ramifications for the \"level of projects and their capacity.\" Klokov concluded by telling 335 11/16/15 Email, I. Trump to Cohen. 336 Cohen 8/7/18 302, at 17. During his interviews with the Office, Cohen still appeared to believe that the Klokov he spoke with was that Olympian. The investigation, however, established that the email address used to communicate with Cohen belongs to a different Dmitry Klokov, as described above. 337 11/18/15 Email, Klokov to Cohen (6:51 a.m.). 338 In July 2018, the Office received an unsolicited email purporting to be from Erchova, in which she wrote that \"[a]t the end of2015 and beginning of2016 I was asked by my ex-husband to contact lvanka Trump ... and offer cooperation to Trump\u0027s team on behalf of the Russian officials.\" 7/27/18 Email, Erchova to Special Counsel\u0027s Office. The email claimed that the officials wanted to offer candidate Trump \"land in Crimea among other things and unofficial meeting with Putin.\" Id. In order to vet the email\u0027s claims, the Office responded requesting more details. The Office did not receive any reply. 339 11/18/15 Email, Cohen to Klokov (7:15 a.m.). 340 11/18/15 Email, Klokov to Cohen (6:51 a.m.). 341 11/18/15 Email, Klokov to Cohen (6:51 a.m.) (\"I would suggest separating your negotiations and our proposal to meet. I assure you, after the meeting level of projects and their capacity can be completely different, having the most important support.\"). 73 \u003c/a\u003e", "value": 12}, {"color": "Blue", "id": "Moscow", "label": "Moscow", "shape": "dot", "title": "Moscow", "value": 63}, {"color": "Red", "id": "Agalarov", "label": "Agalarov", "shape": "dot", "title": "Agalarov", "value": 11}, {"color": "Red", "id": "Ivanka Trump", "label": "Ivanka Trump", "shape": "dot", "title": "Ivanka Trump", "value": 4}, {"color": "Red", "id": "Emin Agalarov", "label": "Emin Agalarov", "shape": "dot", "title": "Emin Agalarov", "value": 13}, {"color": "Blue", "id": "Crocus City", "label": "Crocus City", "shape": "dot", "title": "Crocus City", "value": 1}, {"color": "Blue", "id": "Marriott", "label": "Marriott", "shape": "dot", "title": "Marriott", "value": 1}, {"color": "Red", "id": "Kaveladze", "label": "Kaveladze", "shape": "dot", "title": "Kaveladze", "value": 12}, {"color": "Red", "id": "Khoo et al", "label": "Khoo et al", "shape": "dot", "title": "Khoo et al", "value": 1}, {"color": "Black", "id": "email", "label": "email", "shape": "dot", "title": "email", "value": 106}, {"color": "Red", "id": "Kaveladze et al", "label": "Kaveladze et al", "shape": "dot", "title": "Kaveladze et al", "value": 1}, {"color": "Red", "id": "Khoo", "label": "Khoo", "shape": "dot", "title": "Khoo", "value": 1}, {"color": "Red", "id": "McGee et al", "label": "McGee et al", "shape": "dot", "title": "McGee et al", "value": 1}, {"color": "Red", "id": "Neil MacFarquhar", "label": "Neil MacFarquhar", "shape": "dot", "title": "Neil MacFarquhar", "value": 2}, {"color": "Red", "id": "Cettttlitt", "label": "Cettttlitt", "shape": "dot", "title": "Cettttlitt", "value": 1}, {"color": "Red", "id": "Cetttaitt", "label": "Cetttaitt", "shape": "dot", "title": "Cetttaitt", "value": 9}, {"color": "Blue", "id": "Russia", "label": "Russia", "shape": "dot", "title": "Russia", "value": 280}, {"color": "Red", "id": "Josh Raffel", "label": "Josh Raffel", "shape": "dot", "title": "Josh Raffel", "value": 1}, {"color": "Red", "id": "Ma", "label": "Ma", "shape": "dot", "title": "Ma", "value": 20}, {"color": "Red", "id": "Goldstone", "label": "Goldstone", "shape": "dot", "title": "Goldstone", "value": 18}, {"color": "Red", "id": "Manafort", "label": "Manafort", "shape": "dot", "title": "Manafort", "value": 64}, {"color": "Red", "id": "Kushner", "label": "Kushner", "shape": "dot", "title": "Kushner", "value": 48}, {"color": "Red", "id": "\u00b0 Kushner", "label": "\u00b0 Kushner", "shape": "dot", "title": "\u00b0 Kushner", "value": 3}, {"color": "Red", "id": "Rick Gates", "label": "Rick Gates", "shape": "dot", "title": "Rick Gates", "value": 9}, {"color": "Red", "id": "Eric Trump", "label": "Eric Trump", "shape": "dot", "title": "Eric Trump", "value": 3}, {"color": "Red", "id": "Paul Manafort", "label": "Paul Manafort", "shape": "dot", "title": "Paul Manafort", "value": 52}, {"color": "Red", "id": "Jared Kushner", "label": "Jared Kushner", "shape": "dot", "title": "Jared Kushner", "value": 30}, {"color": "Red", "id": "Hicks", "label": "Hicks", "shape": "dot", "title": "Hicks", "value": 38}, {"color": "Red", "id": "Michael Cohen", "label": "Michael Cohen", "shape": "dot", "title": "Michael Cohen", "value": 48}, {"color": "Red", "id": "Clinton", "label": "Clinton", "shape": "dot", "title": "Clinton", "value": 97}, {"color": "Red", "id": "Cohen", "label": "Cohen", "shape": "dot", "title": "Cohen", "value": 89}, {"color": "Red", "id": "Vargas", "label": "Vargas", "shape": "dot", "title": "Vargas", "value": 6}, {"color": "Red", "id": "DJTJR00485", "label": "DJTJR00485", "shape": "dot", "title": "DJTJR00485", "value": 1}, {"color": "Red", "id": "Manafo1", "label": "Manafo1", "shape": "dot", "title": "Manafo1", "value": 3}, {"color": "Red", "id": "Gates", "label": "Gates", "shape": "dot", "title": "Gates", "value": 21}, {"color": "Black", "id": "emails", "label": "emails", "shape": "dot", "title": "emails", "value": 97}, {"color": "Red", "id": "Aras Agalarov", "label": "Aras Agalarov", "shape": "dot", "title": "Aras Agalarov", "value": 12}, {"color": "Blue", "id": "Azerbaijan", "label": "Azerbaijan", "shape": "dot", "title": "Azerbaijan", "value": 2}, {"color": "Red", "id": "707 Kushner", "label": "707 Kushner", "shape": "dot", "title": "707 Kushner", "value": 1}, {"color": "Red", "id": "708 Cohen", "label": "708 Cohen", "shape": "dot", "title": "708 Cohen", "value": 1}, {"color": "Red", "id": "Priebus", "label": "Priebus", "shape": "dot", "title": "Priebus", "value": 37}, {"color": "Red", "id": "Corallo", "label": "Corallo", "shape": "dot", "title": "Corallo", "value": 5}, {"color": "Red", "id": "Hicks 3/13/ l", "label": "Hicks 3/13/ l", "shape": "dot", "title": "Hicks 3/13/ l", "value": 3}, {"color": "Red", "id": "684 Hicks", "label": "684 Hicks", "shape": "dot", "title": "684 Hicks", "value": 1}, {"color": "Red", "id": "Klokov", "label": "Klokov", "shape": "dot", "title": "Klokov", "value": 4}, {"color": "Red", "id": "Trump", "label": "Trump", "shape": "dot", "title": "Trump", "value": 131}, {"color": "Red", "id": "Vladimir Putin", "label": "Vladimir Putin", "shape": "dot", "title": "Vladimir Putin", "value": 16}, {"color": "Red", "id": "Putin", "label": "Putin", "shape": "dot", "title": "Putin", "value": 56}, {"color": "Red", "id": "Dmitry Klokov", "label": "Dmitry Klokov", "shape": "dot", "title": "Dmitry Klokov", "value": 3}]);
+        edges = new vis.DataSet([{"from": "McGee", "to": "par_160", "value": 3}, {"from": "Werle", "to": "par_629", "value": 1}, {"from": "Goldstone Facebook", "to": "par_160", "value": 1}, {"from": "Kyrgyzstan", "to": "par_251", "value": 2}, {"from": "Hope Hicks", "to": "par_251", "value": 1}, {"from": "Hope Hicks", "to": "par_629", "value": 1}, {"from": "Crimea", "to": "par_177", "value": 1}, {"from": "par_160", "to": "Moscow", "value": 2}, {"from": "par_160", "to": "Agalarov", "value": 1}, {"from": "par_160", "to": "Ivanka Trump", "value": 1}, {"from": "par_160", "to": "Emin Agalarov", "value": 1}, {"from": "par_160", "to": "Crocus City", "value": 3}, {"from": "par_160", "to": "Marriott", "value": 1}, {"from": "par_160", "to": "Kaveladze", "value": 3}, {"from": "par_160", "to": "Khoo et al", "value": 2}, {"from": "par_160", "to": "email", "value": 2}, {"from": "par_160", "to": "Kaveladze et al", "value": 2}, {"from": "par_160", "to": "Khoo", "value": 3}, {"from": "par_160", "to": "McGee et al", "value": 3}, {"from": "Neil MacFarquhar", "to": "par_251", "value": 1}, {"from": "Cettttlitt", "to": "par_629", "value": 1}, {"from": "Cetttaitt", "to": "par_177", "value": 1}, {"from": "Russia", "to": "par_177", "value": 6}, {"from": "Russia", "to": "par_251", "value": 1}, {"from": "Josh Raffel", "to": "par_629", "value": 1}, {"from": "par_251", "to": "Ma", "value": 1}, {"from": "par_251", "to": "email", "value": 2}, {"from": "par_251", "to": "Goldstone", "value": 1}, {"from": "par_251", "to": "Manafort", "value": 2}, {"from": "par_251", "to": "Kushner", "value": 4}, {"from": "par_251", "to": "\u00b0 Kushner", "value": 1}, {"from": "par_251", "to": "Rick Gates", "value": 1}, {"from": "par_251", "to": "Eric Trump", "value": 1}, {"from": "par_251", "to": "Paul Manafort", "value": 1}, {"from": "par_251", "to": "Ivanka Trump", "value": 1}, {"from": "par_251", "to": "Jared Kushner", "value": 1}, {"from": "par_251", "to": "Hicks", "value": 1}, {"from": "par_251", "to": "Michael Cohen", "value": 1}, {"from": "par_251", "to": "Clinton", "value": 1}, {"from": "par_251", "to": "Cohen", "value": 3}, {"from": "par_251", "to": "Vargas", "value": 2}, {"from": "par_251", "to": "DJTJR00485", "value": 1}, {"from": "par_251", "to": "Manafo1", "value": 1}, {"from": "par_251", "to": "Gates", "value": 1}, {"from": "par_251", "to": "emails", "value": 1}, {"from": "par_251", "to": "Aras Agalarov", "value": 1}, {"from": "par_251", "to": "Azerbaijan", "value": 1}, {"from": "par_251", "to": "707 Kushner", "value": 1}, {"from": "par_251", "to": "708 Cohen", "value": 1}, {"from": "email", "to": "par_177", "value": 7}, {"from": "par_629", "to": "Priebus", "value": 1}, {"from": "par_629", "to": "Jared Kushner", "value": 1}, {"from": "par_629", "to": "Ivanka Trump", "value": 1}, {"from": "par_629", "to": "emails", "value": 8}, {"from": "par_629", "to": "Hicks", "value": 18}, {"from": "par_629", "to": "Kushner", "value": 7}, {"from": "par_629", "to": "Manafort", "value": 1}, {"from": "par_629", "to": "Corallo", "value": 1}, {"from": "par_629", "to": "Hicks 3/13/ l", "value": 1}, {"from": "par_629", "to": "684 Hicks", "value": 1}, {"from": "Cohen", "to": "par_177", "value": 15}, {"from": "Klokov", "to": "par_177", "value": 16}, {"from": "Trump", "to": "par_177", "value": 2}, {"from": "emails", "to": "par_177", "value": 3}, {"from": "Vladimir Putin", "to": "par_177", "value": 1}, {"from": "Putin", "to": "par_177", "value": 2}, {"from": "Dmitry Klokov", "to": "par_177", "value": 1}, {"from": "Ivanka Trump", "to": "par_177", "value": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        // default to using dot shape for nodes
+        options.nodes = {
+            shape: "dot"
+        }
+        
+
+        network = new vis.Network(container, data, options);
+
+        
+        // make a custom popup
+        var popup = document.createElement("div");
+        popup.className = 'popup';
+        popupTimeout = null;
+        popup.addEventListener('mouseover', function () {
+            console.log(popup)
+            if (popupTimeout !== null) {
+                clearTimeout(popupTimeout);
+                popupTimeout = null;
+            }
+        });
+        popup.addEventListener('mouseout', function () {
+            if (popupTimeout === null) {
+                hidePopup();
+            }
+        });
+        container.appendChild(popup);
+
+
+        // use the popup event to show
+        network.on("showPopup", function (params) {
+            showPopup(params);
+        });
+
+        // use the hide event to hide it
+        network.on("hidePopup", function (params) {
+            hidePopup();
+        });
+
+
+        // hiding the popup through css
+        function hidePopup() {
+            popupTimeout = setTimeout(function () { popup.style.display = 'none'; }, 500);
+        }
+
+        // showing the popup
+        function showPopup(nodeId) {
+            // get the data from the vis.DataSet
+            var nodeData = nodes.get([nodeId]);
+            popup.innerHTML = nodeData[0].title;
+
+            // get the position of the node
+            var posCanvas = network.getPositions([nodeId])[nodeId];
+
+            // get the bounding box of the node
+            var boundingBox = network.getBoundingBox(nodeId);
+
+            //position tooltip:
+            posCanvas.x = posCanvas.x + 0.5 * (boundingBox.right - boundingBox.left);
+
+            // convert coordinates to the DOM space
+            var posDOM = network.canvasToDOM(posCanvas);
+
+            // Give it an offset
+            posDOM.x += 10;
+            posDOM.y -= 20;
+
+            // show and place the tooltip.
+            popup.style.display = 'block';
+            popup.style.top = posDOM.y + 'px';
+            popup.style.left = posDOM.x + 'px';
+        }
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
